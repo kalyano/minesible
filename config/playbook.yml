@@ -12,10 +12,14 @@
       when: not ansible_check_mode
 
     - name: Set Java 21 as default
-      alternatives:
-        name: java
-        path: /usr/lib/jvm/java-21-amazon-corretto/bin/java
-      when: not ansible_check_mode
+      shell: |
+        alternatives --install /usr/bin/java java /opt/corretto/bin/java 1
+        alternatives --set java /opt/corretto/bin/java
+      args:
+        executable: /bin/bash
+
+    - name: Verify Java version
+        command: java -version
 
     - name: Install unzip and AWS CLI
       yum:
