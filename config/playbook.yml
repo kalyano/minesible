@@ -25,6 +25,7 @@
       get_url:
         url: "https://piston-data.mojang.com/v1/objects/6e64dcabba3c01a7271b4fa6bd898483b794c59b/server.jar"
         dest: /home/ec2-user/minecraft/server.jar
+      when: not ansible_check_mode
 
     - name: Sync save file from S3
       shell: |
@@ -35,8 +36,10 @@
       copy:
         dest: /home/ec2-user/minecraft/eula.txt
         content: "eula=true"
+      when: not ansible_check_mode
 
     - name: Start Minecraft Server
       shell: |
         cd /home/ec2-user/minecraft
         nohup java -Xmx1024M -Xms1024M -jar server.jar nogui &
+      when: not ansible_check_mode
