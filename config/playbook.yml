@@ -20,7 +20,7 @@
 
     - name: Download Minecraft Server 1.21.5
       get_url:
-        url: "https://piston-data.mojang.com/v1/objects/94d1db78a7a02c6f244b9e7dc2a7400f15c21df4/server.jar"
+        url: "https://piston-data.mojang.com/v1/objects/6e64dcabba3c01a7271b4fa6bd898483b794c59b/server.jar"
         dest: /home/ec2-user/minecraft/server.jar
 
     - name: Sync save file from S3
