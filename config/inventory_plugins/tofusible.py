@@ -1,11 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-# Local Testing
-#
-# export TOFUSIBLE_INVENTORY='[{"groups":["web","ohio.columbus"],"host":"JOEY_TEST","password":"this_is_a_test","port":22,"ssh_key":null,"user":"tofu"}]'
-# ansible-inventory -i tofusible.yml --playbook-dir ./ --list
-
 import os
 import json
 
