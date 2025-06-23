@@ -19,7 +19,7 @@
         executable: /bin/bash
 
     - name: Verify Java version
-        command: java -version
+      command: java -version
 
     - name: Install unzip and AWS CLI
       yum:
