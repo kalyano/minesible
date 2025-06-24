@@ -61,10 +61,13 @@
         owner: ec2-user
         group: ec2-user
 
-    - name: Kill existing Minecraft server (if running)
+    - name: Kill existing Minecraft server (if running) # This allows the server to restart and kick in new changes (eg. new server.properties)
       shell: |
         pgrep -f "server.jar" | xargs --no-run-if-empty kill
+      args:
+        executable: /bin/bash
       ignore_errors: true
+      failed_when: false
 
     - name: Start Minecraft Server
       shell: |
