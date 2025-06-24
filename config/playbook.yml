@@ -53,6 +53,14 @@
         content: "eula=true"
       when: not ansible_check_mode
 
+    - name: Set server.properties file
+      copy:
+        src: server.properties
+        dest: /home/ec2-user/minecraft/server.properties
+        mode: '0644'
+        owner: ec2-user
+        group: ec2-user
+
     - name: Start Minecraft Server
       shell: |
         cd /home/ec2-user/minecraft
