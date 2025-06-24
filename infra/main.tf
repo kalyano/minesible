@@ -38,6 +38,7 @@ resource "aws_instance" "minecraft" {
   instance_type = "t3.medium"
   key_name      = "minesible-kp"
   vpc_security_group_ids = [aws_security_group.minecraft_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   tags = {
     Name = "MinecraftServer"
@@ -56,4 +57,57 @@ resource "aws_s3_bucket" "minecraft_saves" {
 
 resource "random_id" "bucket_id" {
   byte_length = 4
+}
+
+resource "aws_iam_role" "ec2_s3_access" {
+  name = "ec2-minecraft-s3-access"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "s3_policy" {
+  name = "ec2-s3-full-access"
+  role = aws_iam_role.ec2_s3_access.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:ListAllMyBuckets"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:ListBucket",
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::*",
+          "arn:aws:s3:::*/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "minecraft-ec2-profile"
+  role = aws_iam_role.ec2_s3_access.name
 }
