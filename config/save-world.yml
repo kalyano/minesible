@@ -1,0 +1,13 @@
+# config/save-world.yml
+- name: Save Minecraft world to S3 bucket
+  hosts: minecraft
+  become: true
+  tasks:
+    - name: Zip Minecraft world directory
+      shell: |
+        cd /home/ec2-user/minecraft
+        zip -r world.zip world || true
+
+    - name: Upload zipped world to current S3 bucket
+      shell: |
+        aws s3 cp /home/ec2-user/minecraft/world.zip s3://{{ $s3_bucket }}/world.zip
