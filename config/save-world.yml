@@ -10,4 +10,4 @@
 
     - name: Upload zipped world to current S3 bucket
       shell: |
-        aws s3 cp /home/ec2-user/minecraft/world.zip s3://{{ $s3_bucket }}/world.zip
+        aws s3 cp /home/ec2-user/minecraft/world.zip s3://{{ s3_bucket }}/world.zip
