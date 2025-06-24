@@ -61,8 +61,15 @@
         owner: ec2-user
         group: ec2-user
 
+    - name: Kill existing Minecraft server (if running)
+      shell: |
+        pgrep -f "server.jar" | xargs --no-run-if-empty kill
+      ignore_errors: true
+
     - name: Start Minecraft Server
       shell: |
         cd /home/ec2-user/minecraft
         nohup java -Xmx1024M -Xms1024M -jar server.jar nogui &
+      args:
+        executable: /bin/bash
       when: not ansible_check_mode
