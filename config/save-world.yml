@@ -2,10 +2,19 @@
 - hosts: minecraft
   become: true
   tasks:
-    - name: Zip Minecraft world directory
+
+    #debug
+    - name: Debug - check for save files
       shell: |
         cd /home/ec2-user/minecraft
-        zip -r world.zip world || true
+        ls -a
+        cd /world
+        ls -a
+
+    #debug
+    - name: Zip Minecraft world directory
+      shell: |
+        cd /home/ec2-user/minecraft && zip -r world.zip world || true
 
     - name: Upload zipped world to current S3 bucket
       shell: |
