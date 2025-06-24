@@ -42,10 +42,12 @@
         dest: /home/ec2-user/minecraft/server.jar
       when: not ansible_check_mode
 
-    - name: Sync save file from S3
+    - name: Sync world from main backup bucket into random S3 bucket
       shell: |
-        aws s3 cp s3://$SPACELIFT_OUTPUT_minecraft_infra_s3_bucket/world.zip /home/ec2-user/minecraft/world.zip || true
-        unzip -o /home/ec2-user/minecraft/world.zip -d /home/ec2-user/minecraft || true
+        aws s3 cp s3://minesible-world-backups/world.zip /tmp/world.zip || true
+        unzip -o /tmp/world.zip -d /home/ec2-user/minecraft || true
+      args:
+        executable: /bin/bash
 
     - name: Accept EULA
       copy:
@@ -53,10 +55,18 @@
         content: "eula=true"
       when: not ansible_check_mode
 
+    - name: Copy server icon to Minecraft directory
+      copy:
+        src: /mnt/workspace/server-icon.png
+        dest: /home/ec2-user/minecraft/server-icon.png
+        owner: ec2-user
+        group: ec2-user
+        mode: '0644'
+
     - name: Set server.properties file
       copy:
         src: server.properties
-        dest: /home/ec2-user/minecraft/server.properties
+        dest: /home/ec2-user/minecraft/server.properties 
         mode: '0644'
         owner: ec2-user
         group: ec2-user
