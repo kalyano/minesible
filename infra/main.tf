@@ -97,7 +97,8 @@ resource "aws_iam_role_policy" "s3_policy" {
           "s3:ListBucket",
           "s3:GetObject",
           "s3:PutObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:DeleteObjectVersion"
         ],
         Resource = [
           "arn:aws:s3:::*",
