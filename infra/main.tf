@@ -53,6 +53,7 @@ EOF
 
 resource "aws_s3_bucket" "minecraft_saves" {
   bucket = "minecraft-server-saves-${random_id.bucket_id.hex}"
+  force_destroy = true
 }
 
 resource "random_id" "bucket_id" {
