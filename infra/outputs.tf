@@ -3,5 +3,5 @@ output "ec2_ip" {
 }
 
 output "s3_bucket" {
-  value = aws_s3_bucket.minecraft_saves.bucket
+  value = var.minecraft_s3_bucket != null ? var.minecraft_s3_bucket : aws_s3_bucket.minecraft_saves[0].bucket
 }
