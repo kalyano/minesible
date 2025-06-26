@@ -52,8 +52,11 @@ EOF
 }
 
 resource "aws_s3_bucket" "minecraft_saves" {
-  bucket = "minecraft-server-saves-${random_id.bucket_id.hex}"
+  bucket = var.minecraft_s3_bucket != null ? var.minecraft_s3_bucket : "minecraft-server-saves-${random_id.bucket_id.hex}"
   force_destroy = true
+
+  # Only create if we're not passing one
+  count = var.minecraft_s3_bucket == null ? 1 : 0
 }
 
 resource "random_id" "bucket_id" {
