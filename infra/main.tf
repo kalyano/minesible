@@ -52,10 +52,14 @@ EOF
 }
 
 resource "aws_s3_bucket" "minecraft_saves" {
-  bucket = var.minecraft_s3_bucket != null ? var.minecraft_s3_bucket : "minecraft-server-saves-${random_id.bucket_id.hex}"
+
+  # Logic here to use provided TF_var "minecraft_s3_bucket" - if none provided, use "minesible-world-backups-${random_id.bucket_id.hex}"
+  # "minesible-world-backups-${random_id.bucket_id.hex}" will be destoryed on infra teardown so it's recommend to save your files to a pre-created S3 bucket
+
+  bucket = var.minecraft_s3_bucket != null ? var.minecraft_s3_bucket : "minesible-world-backups-${random_id.bucket_id.hex}"
   force_destroy = true
 
-  # Only create if we're not passing one
+  # Only create if we're not passing one as a variable
   count = var.minecraft_s3_bucket == null ? 1 : 0
 }
 
