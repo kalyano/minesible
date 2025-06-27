@@ -14,8 +14,8 @@
     #debug
     - name: Zip Minecraft world directory
       shell: |
-        cd /home/ec2-user/minecraft && zip -r spacelift-world.zip spacelift-world || true
+        cd /home/ec2-user/minecraft && zip -r world.zip spacelift-world || true
 
     - name: Upload zipped world to current S3 bucket
       shell: |
-        aws s3 cp /home/ec2-user/minecraft/spacelift-world.zip s3://{{ lookup('env', 's3_bucket') }}/spacelift-world.zip
+        aws s3 cp /home/ec2-user/minecraft/world.zip s3://{{ lookup('env', 's3_bucket') }}/world.zip
