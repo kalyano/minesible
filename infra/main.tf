@@ -41,7 +41,7 @@ resource "aws_instance" "minecraft" {
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   tags = {
-    Name = "MinecraftServer-stage"
+    Name = "MinecraftServer"
   }
 
   user_data = <<EOF
