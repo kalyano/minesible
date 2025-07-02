@@ -1,5 +1,3 @@
-wrong line
-
 provider "aws" {
   region = "us-east-1"
 }
